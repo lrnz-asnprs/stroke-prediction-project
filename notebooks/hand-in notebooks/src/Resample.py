@@ -15,7 +15,10 @@ def oversample(data: pd.DataFrame):
         # Get features and labels (X, y)
         y = data[["stroke"]].copy()
         X = data.copy()
-        X.drop(columns= ["id", "stroke"], inplace=True)
+        if "id" in X.columns:
+            X.drop(columns= ["id"], inplace=True)
+        if "stroke" in X.columns:
+            X.drop(columns= ["stroke"], inplace=True)
 
         # Bring input in right format
         X_input = X.values # input must be 2d array
@@ -46,7 +49,10 @@ def undersample_kmeans(data: pd.DataFrame):
 
     y_under = data[["stroke"]].copy()
     X_under = data.copy()
-    X_under.drop(columns= ["id", "stroke"], inplace=True)
+    if "id" in X_under.columns:
+        X_under.drop(columns= ["id"], inplace=True)
+    if "stroke" in X_under.columns:
+        X_under.drop(columns= ["stroke"], inplace=True)
 
    # Based on KMEANS -> we need to apply one hot encoding
 
@@ -80,7 +86,7 @@ def undersample_kmeans(data: pd.DataFrame):
     # Return as dataframe 
     X_output = pd.DataFrame(X_combined)
     X_output
-    X_output.set_axis(["age", "avg_glucose_lvl", "bmi", "hypertension", "heart_disease", "gender", "ever_married", "work_type", "Residence_type", "smoking_status"], axis=1, inplace=True)
+    X_output.set_axis(["age", "avg_glucose_level", "bmi", "hypertension", "heart_disease", "gender", "ever_married", "work_type", "Residence_type", "smoking_status"], axis=1, inplace=True)
     X_output["stroke"] = y_kmeans_resampled
 
     #  Datatypes are changed from int to float after undersampling, need to change it back 
