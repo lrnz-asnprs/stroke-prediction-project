@@ -25,7 +25,7 @@ def oversample(data: pd.DataFrame):
         y_input = y.values.flatten() # should be 1d array
 
         # Initialize SMOTENC oversampler (the numbers are the columns that contain categorical values)
-        smote = SMOTENC(categorical_features=[0, 2, 3, 4, 5, 6, 9], random_state=0) 
+        smote = SMOTENC(categorical_features=[0, 2, 3, 4, 5, 6, 9], random_state=0, k_neighbors=10) 
         # fit predictor and target variable
         x_smote, y_smote = smote.fit_resample(X_input, y_input)
 
