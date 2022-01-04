@@ -345,7 +345,7 @@ plt.show()
 
 X = data
 
-range_n_clusters = [5,10,15,20,25,30]
+range_n_clusters = [5,10,15]
 
 for n_clusters in range_n_clusters:
     fig, ax = plt.subplots()
@@ -395,14 +395,15 @@ for n_clusters in range_n_clusters:
     ax.set_xticks([-0.1, 0, 0.2, 0.4, 0.6, 0.8, 1])
 
     plt.suptitle(
-        "Silhouette analysis for KMeans clustering on sample data with n_clusters = %d"
+        "Silhouette analysis for KMeans clustering (clusters = %d)"
         % n_clusters,
         fontsize=14,
         fontweight="bold",
     )
+    
+    plt.savefig("mul_dim_silhouette.png")
 
-plt.savefig("mul_dim_silhouette.png")
-plt.show()
+    plt.show()
 
 # %%
 kmeans = KMeans(n_clusters=15)
@@ -471,7 +472,7 @@ reduced_df["hypertension"] = data["hypertension"]
 reduced_df.head(3)
 
 # %%
-for x in range(0,max(reduced_df["cluster"])):
+for x in range(0,max(reduced_df["cluster"])+1):
     temp = reduced_df[reduced_df["cluster"]==x]
     print("Cluster: " + str(x) + ", strokes: " + str(sum(temp["stroke"])) + ", out of " + str(temp.stroke.count()))
 
@@ -501,22 +502,23 @@ non_strokes = reduced_df[reduced_df["stroke"] == 0]
 strokes = reduced_df[reduced_df["stroke"] == 1]
 
 # plot non-strokes
-ax.scatter(non_strokes["PC1"], non_strokes["PC2"], c=non_strokes["cluster"], s=30, marker='o', alpha=0.1, cmap='Spectral')
+ax.scatter(non_strokes["PC1"], non_strokes["PC2"], c=non_strokes["cluster"], s=30, marker='o', alpha=0.1, cmap='rainbow')
 # and strokes
-scatter = ax.scatter(strokes["PC1"], strokes["PC2"], c=strokes["cluster"], s=30, marker='D', cmap='Spectral')
+scatter = ax.scatter(strokes["PC1"], strokes["PC2"], c=strokes["cluster"], s=30, marker='D', cmap='rainbow')
 # plot cluster centers
 ax.scatter(centres_reduced[:, 0], centres_reduced[:, 1],
             marker='x', s=169, linewidths=3,
             color='r', zorder=10)
 # legend for cluster numbers
 legend1 = ax.legend(*scatter.legend_elements(),
-                    loc="upper right", title="Clusters", prop={'size': 18})
+                    loc="lower left", title="Clusters", prop={'size': 10})
 ax.add_artist(legend1)
 # legend for stroke/no stroke
 legend_elements = [Line2D([0], [0], marker='D', label='Stroke', markersize=10),
                    Line2D([0], [0], marker='o', label='No Stroke', markersize=10),
                   ]
-legend2 = ax.legend(handles=legend_elements, loc='lower right', prop={'size': 15})
+legend2 = ax.legend(handles=legend_elements, loc='upper left', prop={'size': 10})
+plt.savefig("mul_dim_visu.png")
 plt.show()
 
 # %% [markdown]
