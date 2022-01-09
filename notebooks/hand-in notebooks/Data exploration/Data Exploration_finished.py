@@ -10,7 +10,6 @@ from math import sqrt
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.tree import DecisionTreeRegressor
-%matplotlib inline
 
 # %%
 # Create dataframe 
